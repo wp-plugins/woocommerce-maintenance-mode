@@ -341,7 +341,7 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 } else {
 	
 	// If Woocommerce is not activated then admin error message	
-	function woocommerce_maintmode_activate_notice() {
+	function woocommerce_maintmode_activate_admin_notice() {
 		
 		global $current_user ;
 		$user_id = $current_user->ID;

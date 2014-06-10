@@ -28,16 +28,22 @@ function woocommerce_maintmode_options_do_page() {
 
 		<?php screen_icon(); echo "<h2 class='woo_maint'>" . __( 'Woocommerce Maintenance | Message Mode', 'woocommerce-maintenance-mode' ) . "</h2>"; ?>
 
+		<?php //if ( false !== $_REQUEST['settings-updated'] ) : ?>
+		<!-- <div class="updated fade"><p><strong><?php //_e( 'Options saved', 'woocommerce-maintenance-mode' ); ?></strong></p></div> -->
+		<?php //endif; ?>
+
 		<form method="post" action="options.php">
 
 			<?php settings_fields( 'woocommerce_maintmode_options' ); ?>
 			<?php $options = get_option( 'woo_maint' ); ?>
 
 			<?php if ( get_option('timezone_string') == '' ) {
-					echo 'Please Choose a city and not an offset. 
-					You can find your timezone settings <a href="'.site_url().'/wp-admin/options-general.php">here</a>. ';
-				  }
+				echo '<div class="error"><p>';
+				_e( 'Please Choose a city and not an offset. You can find your timezone settings <a href="'.site_url().'/wp-admin/options-general.php">here</a>.', 'woocommerce-maintenance-mode' ); 
+				echo '</p></div>';
+				}
 			?>
+            
 			<table class="form-table woo_maint">
 
 				<tr valign="top"><th scope="row"><?php _e( 'Activate:', 'woocommerce-maintenance-mode' ); ?></th>
@@ -186,6 +192,9 @@ function woocommerce_maintmode_options_validate( $input ) {
 
 	return $input;
 }
+
+// adapted from http://planetozh.com/blog/2009/05/handling-plugins-options-in-wordpress-28-with-register_setting/
+
 
 // This will go on the plugin options page for the Date Selection
 function woocommerce_maintmode_admin(){
