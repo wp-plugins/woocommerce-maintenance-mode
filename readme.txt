@@ -19,6 +19,7 @@ Get in touch with me at:
 http://mattroyal.co.za/
 
 **Features**
+
 * Set end date
 * Control frequency of messages/redirects 
 * Control how message is displayed
@@ -34,6 +35,7 @@ http://mattroyal.co.za/
 * Add URL for external redirect or use editor to create your message
 
 **Please Note - NB!!**
+
 * If the chosen 'Display Option' is set to 'Redirect', the 'External Redirect URL' field must be empty to redirect to an 'Existing Page' option as seen below it. If you specify a URL in the field it will ignore the 'Existing Page' option.
 * If the chosen 'Display Option' is set to 'Lightbox' or 'On Page', the Store Message WYSIWYG textarea must be empty to use content from the 'Existing Page' option above. If Store Message WYSIWYG textarea has any content whatsoever, it will ignore the existing page option.
 
