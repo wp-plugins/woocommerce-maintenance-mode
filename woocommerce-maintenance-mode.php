@@ -1,7 +1,7 @@
 <?php
 /*
    Plugin Name: WooCommerce Maintenance Mode
-   Version: 1.0.0
+   Version: 1.0
    Description: Add a message or redirect on Woocommerce pages only, not affecting any other parts of your website. Logged in admins will not see anything.
    Plugin URI: http://www.mattroyal.co.za/plugins/woocommerce-maintenance-mode/
    Author: Matt Royal
@@ -54,14 +54,14 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 			
 			if ( ! get_user_meta($user_id, 'woocommerce_maintmode_ignore_notice') ) {
 				echo '<div class="error"><p>';
-				printf(__('WooCommerce Maintenance/Message mode is Active! | <a href="options-general.php?page=woocommerce_maintmode_plugin_options">Turn Off</a> | <a href="%1$s">Hide Notice</a>'), '?woocommerce_maintmode_nag_ignore=0');
+				printf(__('WooCommerce Maintenance/Message mode is Active! | <a href="options-general.php?page=woocommerce_maintmode_plugin_options">Turn Off</a><!-- | <a href="%1$s">Hide Notice</a> -->'), '?woocommerce_maintmode_nag_ignore=0');
 				echo "</p></div>";
 			}
 		}
 		
 		add_action('admin_notices', 'woocommerce_maintmode_admin_notice');
 		
-		
+			/**
 			// Allow admin notice to be dismissed 
 			function woocommerce_maintmode_nag_ignore() {
 			
@@ -73,7 +73,7 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 			}
 		}
 		
-		add_action('admin_init', 'woocommerce_maintmode_nag_ignore');
+		add_action('admin_init', 'woocommerce_maintmode_nag_ignore'); */
 			
 	}
 	
@@ -97,7 +97,7 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 		
 		$options = get_option('woo_maint');
 		
-		if ( ($options['activation'] == 1) /* && ! current_user_can( 'manage_woocommerce' ) */ ) {
+		if ( ($options['activation'] == 1) && ! current_user_can( 'manage_woocommerce' ) ) {
 			add_action( 'wp_enqueue_scripts', 'woocommerce_maintmode_scripts' );
 		}
 	}
@@ -108,7 +108,7 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 	function woocommerce_maintmode_header() {
 		
 		// check to see if users capabilities are less than woocommerce shop manager and only dispaly on Woocommerce pages
-		if( is_woocommerce() or is_shop() or is_product_category() or is_product() or is_cart() or is_checkout() or is_account_page() /* && ! current_user_can( 'manage_woocommerce' ) */ ) {
+		if( is_woocommerce() or is_shop() or is_product_category() or is_product() or is_cart() or is_checkout() or is_account_page() && ! current_user_can( 'manage_woocommerce' ) ) {
 			
 			// Get some settings
 			$options = get_option('woo_maint');
@@ -157,7 +157,7 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 			echo $output;
 			
 			// Check if lightbox / page or content	
-			if ( $options['position'] == 'Lightbox' /* && ! current_user_can( 'manage_woocommerce' ) */ ) {
+			if ( $options['position'] == 'Lightbox' && ! current_user_can( 'manage_woocommerce' ) ) {
 				
 				// Check if internal or external page
 					if ( $options['message'] == '' ) {
@@ -198,7 +198,7 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 		
 		$options = get_option('woo_maint');
 		
-		if ( ($options['activation'] == 1) && ($options['position'] == 'Page' or $options['position'] == 'Lightbox') /* && ! current_user_can( 'manage_woocommerce' ) */ ) {
+		if ( ($options['activation'] == 1) && ($options['position'] == 'Page' or $options['position'] == 'Lightbox') && ! current_user_can( 'manage_woocommerce' ) ) {
 			add_filter('wp_head', 'woocommerce_maintmode_header');
 		}
 	}
@@ -241,7 +241,7 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 		}
 		
 		// Conditions to validate against before redirecting the user
-		if ( ( $options['position'] == 'Redirect' && $time_diff >= 0 ) && (is_woocommerce() or is_shop() or is_product_category() or is_product() or is_cart() or is_checkout() or is_account_page() ) /* && ! current_user_can( 'manage_woocommerce' ) */ ) {
+		if ( ( $options['position'] == 'Redirect' && $time_diff >= 0 ) && (is_woocommerce() or is_shop() or is_product_category() or is_product() or is_cart() or is_checkout() or is_account_page() ) && ! current_user_can( 'manage_woocommerce' ) ) {
 			
 			// Check if cookie is set for the user
 			if ( ! isset( $_COOKIE['redirect_cookie'] ) ) {
@@ -288,7 +288,7 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 		$time_diff = floor($time_diff_string/(60*60*24));
 	
 		// Conditions to validate against before redirecting the user
-		if ( ( $options['position'] == 'Page' && $time_diff >= 0 ) && (is_woocommerce() or is_shop() or is_product_category() or is_product() or is_cart() or is_checkout() or is_account_page() ) /* && ! current_user_can( 'manage_woocommerce' ) */ ) {
+		if ( ( $options['position'] == 'Page' && $time_diff >= 0 ) && (is_woocommerce() or is_shop() or is_product_category() or is_product() or is_cart() or is_checkout() or is_account_page() ) && ! current_user_can( 'manage_woocommerce' ) ) {
 			
 			// Check if cookie is set for the user
 			if ( ! isset( $_COOKIE['page_cookie'] ) ) {
@@ -348,13 +348,14 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 		
 		if ( ! get_user_meta($user_id, 'woocommerce_maintmode_activate_ignore_notice') ) {
 			echo '<div class="error"><p>';
-			printf(__('WooCommerce Plugin is not installed or activated. <a href="%1$s">Hide Notice</a>'), '?woocommerce_maintmode_activate_nag_ignore=0');
+			printf(__('WooCommerce Plugin is not installed or activated. <!-- <a href="%1$s">Hide Notice</a> -->'), '?woocommerce_maintmode_activate_nag_ignore=0');
 			echo "</p></div>";
 		}
 	}
 	
 	add_action('admin_notices', 'woocommerce_maintmode_activate_admin_notice');
 	
+	/**
 	// Allow activation notice to be dismissed 
 	function woocommerce_maintmode_activate_nag_ignore() {
 		
@@ -366,6 +367,6 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 		}
 	}
 	
-	add_action('admin_init', 'woocommerce_maintmode_activate_nag_ignore');
+	add_action('admin_init', 'woocommerce_maintmode_activate_nag_ignore'); */
 
 }
