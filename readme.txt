@@ -10,7 +10,11 @@ Store messages or redirects on all WooCommerce pages for non admins. Other pages
 
 == Description ==
 
-Easily choose between displaying a message or specifying an existing page or external URL to redirect users. This will be applied to all users that are not-logged in and are without shop editing capabilities. This will only affect WooCommerce store pages and no other pages or posts on your website. Easily select from your websites existing pages to pull in content for your messages or as a destination for your redirects. Alternatively use the Maintenance WYSIWYG field to create your own custom messages (just like on a page or post). Set an end date that will automatically resume your store to normal view and enjoy the flexibility of being able to adjust the frequency at which to display your store messages or redirects to your users. 
+Easily choose between displaying a message or specifying an existing page or external URL to redirect users. This will be applied to all users that are not-logged in and are without shop editing capabilities.This will only affect WooCommerce store pages and no other pages or posts on your website. 
+
+Easily select from your websites existing pages to pull in content for your messages or as a destination for your redirects. Alternatively use the Maintenance WYSIWYG field to create your own custom messages (just like on a page or post). 
+
+Set an end date that will automatically resume your store to normal view and enjoy the flexibility of being able to adjust the frequency at which to display your store messages or redirects to your users. 
 
 Requires WordPress 3.0+ and WooCommerce 2.0+.
 
