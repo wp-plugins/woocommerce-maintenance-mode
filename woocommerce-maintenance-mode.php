@@ -44,7 +44,7 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 	// Display admin notice when activated
 	$options = get_option('woo_maint');
 		
-	if ( ($options['activation'] == 1)  && ! current_user_can( 'manage_woocommerce' ) ) {
+	if ( $options['activation'] == 1 ) {
 		
 		function woocommerce_maintmode_admin_notice() {
 			
