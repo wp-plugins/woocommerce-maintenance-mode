@@ -4,7 +4,7 @@ Donate link: http://mattroyal.co.za/donate
 Tags: woocommerce, maintenance, shop, store, notice, alert, redirect, lightbox
 Requires at least: 3.8
 Tested up to: 3.9.1
-Stable tag: 1.0
+Stable tag: 1.1
 
 Store messages or redirects on all WooCommerce pages for non admins. Other pages/posts unaffected. Ideal for store maintenance or store wide notices.
 
@@ -16,10 +16,9 @@ Easily select from your websites existing pages to pull in content for your mess
 
 Set an end date that will automatically resume your store to normal view and enjoy the flexibility of being able to adjust the frequency at which to display your store messages or redirects to your users. 
 
-Requires WordPress 3.0+ and WooCommerce 2.0+.
+Requires WordPress 3.0 + and WooCommerce 2.0 +.
 
 Get in touch with me at:
-
 http://mattroyal.co.za/
 
 **Features**
@@ -53,6 +52,8 @@ Installing "WooCommerce Maintenance Mode" can be done either by searching for "W
 3. Activate the plugin through the 'Plugins' menu in WordPress
 
 == Frequently Asked Questions ==
+
+No questions yet. Need help, contact me via [my website](http://mattroyal.co.za).
 
 == Screenshots ==
 
