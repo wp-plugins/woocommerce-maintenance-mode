@@ -1,7 +1,7 @@
 <?php
 /*
    Plugin Name: WooCommerce Maintenance Mode
-   Version: 1.0
+   Version: 1.1
    Description: Add a message or redirect on Woocommerce pages only, not affecting any other parts of your website. Logged in admins will not see anything.
    Plugin URI: http://www.mattroyal.co.za/plugins/woocommerce-maintenance-mode/
    Author: Matt Royal
@@ -22,7 +22,6 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 		load_plugin_textdomain('woocommerce-maintenance-mode', false, $pluginDir . '/lang/');
 	}
 	
-	// First initialize i18n
 	woocommerce_maintmode_i18n_init();
 	
 	
@@ -80,16 +79,18 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 		
 	// Register and Enqueue Theme Scripts
 	function woocommerce_maintmode_scripts() {
-	
-		// This may already be included with the woocommerce plugin
-		wp_register_script( 'mattroyal_fancyboxjs', plugins_url( 'assets/fancybox/jquery.fancybox.js' , __FILE__ ),array('jquery'), '1.0', false );
-		wp_enqueue_script( 'mattroyal_fancyboxjs' );
-
-		wp_register_script( 'mattroyal_cookiesjs', plugins_url( 'assets/jquery.cookie.js' , __FILE__ ),array('jquery'), '1.0', false );
-		wp_enqueue_script( 'mattroyal_cookiesjs' );		
 		
-		wp_register_style( 'mattrotal_fancyboxcss', plugins_url( 'assets/fancybox/jquery.fancybox.css' , __FILE__ ), '', '', 'all' );
-		wp_enqueue_style( 'mattrotal_fancyboxcss' );  
+		global $woocommerce;
+		$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
+			
+		wp_enqueue_script( 'prettyPhoto', $woocommerce->plugin_url() . '/assets/js/prettyPhoto/jquery.prettyPhoto' . $suffix . '.js', array( 'jquery' ), '3.1.5', true );
+		
+		wp_register_style( 'woo_maint_prettyPhotocss', plugins_url( 'assets/prettyPhoto/css/prettyPhoto.css' , __FILE__ ), '', '', 'all' );
+		wp_enqueue_style( 'woo_maint_prettyPhotocss' ); 
+
+		wp_register_script( 'woo_maint_cookiesjs', plugins_url( 'assets/jquery.cookie.js' , __FILE__ ),array('jquery'), '1.0', false );
+		wp_enqueue_script( 'woo_maint_cookiesjs' );	
+		
 	}
 	
 	// only add scripts to site if active
@@ -133,25 +134,38 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 			$time_diff = floor($time_diff_string/(60*60*24));
 			
 			$output .= '
+			
 			<style type="text/css">
 			
-			.fancybox-overlay {
-				z-index: 999999 !important;
-			}
-			
+				.woo_maint_page {
+					border: 3px dashed #999; 
+					margin: 20px 0 50px; 
+					padding: 20px; 
+					text-align: center;
+				}
+				
 			</style>
+			
 			<script>
+			
 				jQuery(document).ready(function(){
 					
-					var check_cookie = jQuery.cookie("lightbox_cookie");
+				   var check_cookie = jQuery.cookie("lightbox_cookie");
 					if(check_cookie == null){
+						
 					jQuery.cookie("lightbox_cookie", "woo_maintmode_on", { expires: '.$options['cookie_expire'].', path: "/" });';
 					
 					if ( $time_diff >= 0 ) {
-						$output .= 'jQuery(".royal-fancybox").fancybox().trigger("click");';
+						$output .= 'jQuery(".royal-prettyPhoto").prettyPhoto({
+										theme: "pp_default",
+										social_tools: ""
+									}).trigger("click");';
 					}
+					
 				   $output .= '}
+				   				   
 				});
+				
 			</script>';
 					
 			echo $output;
@@ -170,8 +184,8 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 						//$title = $page_data->post_title;
 						
 						$content = '
-						<a class="royal-fancybox" href="#count_info" style="display: none;">Inline</a>
-						<div id="count_info" style="display: none;">'.$page_content.'</div>';
+						<a class="royal-prettyPhoto" href="#woo_maint_lightbox" style="display: none;">Inline</a>
+						<div id="woo_maint_lightbox" style="display: none;">'.$page_content.'</div>';
 					
 						echo $content;
 					
@@ -180,8 +194,8 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 					else {
 				
 					$content = '
-						<a class="royal-fancybox" href="#count_info" style="display: none;">Inline</a>
-						<div id="count_info" style="display: none;">'.$options['message'].'</div>';
+						<a class="royal-prettyPhoto" href="#woo_maint_lightbox" style="display: none;">Inline</a>
+						<div id="woo_maint_lightbox" style="display: none;">'.$options['message'].'</div>';
 					
 					echo $content;
 					
@@ -313,7 +327,7 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 						$page_content = $page_data->post_content;
 						//$title = $page_data->post_title;
 						
-						$content.= '<div style="border: 3px solid #999; margin: 20px 0 50px; padding: 20px; text-align: center; color: #999;">';
+						$content.= '<div class="woo_maint_page">';
 						$content.= '<p>'.$page_content.'</p>';
 						$content.= '</div>';
 							
@@ -321,7 +335,7 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 				
 					} else {
 						
-						$content.= '<div style="border: 3px dashed #999; margin: 20px 0 50px; padding: 20px; text-align: center; color: #999;">';
+						$content.= '<div class="woo_maint_page">';
 						$content.= '<p>'.$options['message'].'</p>';
 						$content.= '</div>';
 							
