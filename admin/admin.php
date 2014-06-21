@@ -65,7 +65,7 @@ function woocommerce_maintmode_options_do_page() {
                 
                 <tr valign="top"><th scope="row"><?php _e( 'Message Intervals:', 'woocommerce-maintenance-mode' ); ?></th>
 					<td>
-						<input id="woo_maint_cookie_expire" class="regular-text" width="60" type="text" name="woo_maint[cookie_expire]" value="<?php esc_attr_e( $options['cookie_expire'] ); ?>" />
+						<input id="woo_maint_cookie_expire" class="regular-text" width="60" type="text" name="woo_maint[cookie_expire]" value="<?php if( $options['cookie_expire'] != '' ) { esc_attr_e( $options['cookie_expire'] ); } else { echo 0; } ?>" />
 						<label class="description" for="woo_maint[cookie_expire]"></label>
                         <p><span class="woo_maint_note">
                         <?php _e( 'Range: 0 - 365 | (0 - Displays message every visit, 1 - Displays 1x day, 365 - Displays 1x a year )', 'woocommerce-maintenance-mode' ); ?>

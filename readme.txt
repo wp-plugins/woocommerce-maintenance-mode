@@ -4,7 +4,7 @@ Donate link: http://mattroyal.co.za/donate
 Tags: woocommerce, maintenance, shop, store, notice, alert, redirect, lightbox
 Requires at least: 3.8
 Tested up to: 3.9.1
-Stable tag: 1.1
+Stable tag: 1.1.1
 
 Store messages or redirects on all WooCommerce pages for non admins. Other pages/posts unaffected. Ideal for store maintenance or store wide notices.
 
@@ -64,11 +64,28 @@ No questions yet. Need help, contact me via [my website](http://mattroyal.co.za)
 
 == Changelog ==
 
+= 1.2 =
+* 2014-06-21
+* Cookies set with php, now set site wide
+* Admin Interface, frequency input field set default value to 0
+
+= 1.1 =
+* 2014-06-11
+* Replaced Fancybox with prettyPhoto 
+
 = 1.0 =
 * 2012-06-09
 * Initial release
 
 == Upgrade Notice ==
+
+= 1.2 =
+* 2014-06-21
+* Minor enhancements to admin interface & setting of cookies
+
+= 1.1 =
+* 2014-06-11
+* Replaced Fancybox with prettyPhoto 
 
 = 1.0 =
 * 2012-06-09

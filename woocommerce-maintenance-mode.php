@@ -1,7 +1,7 @@
 <?php
 /*
    Plugin Name: WooCommerce Maintenance Mode
-   Version: 1.1
+   Version: 1.2
    Description: Add a message or redirect on Woocommerce pages only, not affecting any other parts of your website. Logged in admins will not see anything.
    Plugin URI: http://www.mattroyal.co.za/plugins/woocommerce-maintenance-mode/
    Author: Matt Royal
@@ -264,7 +264,7 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 				$cookie = 'woo_maintmode_on';
 				
 				// Set the cookie for the user
-				setcookie('redirect_cookie',$cookie,time() + (86400 * $days)); // 86400 = 1 day
+				setcookie('redirect_cookie',$cookie,time() + (86400 * $days), '/'); // 86400 = 1 day
 					
 				// ...and Redirect user
 				wp_redirect( $redirection, 302 ); exit();
@@ -311,7 +311,7 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 				$cookie = 'woo_maintmode_on';
 				
 				// Set the cookie for the user
-				setcookie('page_cookie',$cookie,time() + (86400 * $days)); // 86400 = 1 day
+				setcookie('page_cookie',$cookie,time() + (86400 * $days), '/'); // 86400 = 1 day
 				
 				function woocommerce_maintmode_page_message($content) {	
 				

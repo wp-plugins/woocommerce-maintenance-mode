@@ -1,5 +1,14 @@
 *** WooCommerce Maintenance Mode Changelog ***
 
+= 1.2 =
+* 2014-06-21
+* Cookies set with php, now set site wide
+* Admin Interface, frequency input field set default value to 0
+
+= 1.1 =
+* 2014-06-11
+* Replaced Fancybox with prettyPhoto 
+
 = 1.0 =
 * 2014-06-09
 * Initial release
