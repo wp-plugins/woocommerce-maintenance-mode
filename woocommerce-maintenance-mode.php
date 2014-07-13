@@ -93,6 +93,16 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 		
 	}
 	
+	function woocommerce_maintmode_countdown_scripts() {	
+		
+		wp_register_script( 'woo_maint_pluginjs', plugins_url( 'assets/countdown/jquery.plugin.min.js' , __FILE__ ),array('jquery'), false, false );
+		wp_enqueue_script( 'woo_maint_pluginjs' );	
+		
+		wp_register_script( 'woo_maint_countdownjs', plugins_url( 'assets/countdown/jquery.countdown.min.js' , __FILE__ ),array('jquery'), '2.0', false );
+		wp_enqueue_script( 'woo_maint_countdownjs' );
+		
+	}
+	
 	// only add scripts to site if active
 	function woocommerce_maintmode_scripts_init(){
 		
@@ -100,6 +110,10 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 		
 		if ( ($options['activation'] == 1) && ! current_user_can( 'manage_woocommerce' ) ) {
 			add_action( 'wp_enqueue_scripts', 'woocommerce_maintmode_scripts' );
+		}
+		
+		if ( ($options['activation'] == 1) && ! current_user_can( 'manage_woocommerce' ) && ($options['countdown'] == 1) ) {
+			add_action( 'wp_enqueue_scripts', 'woocommerce_maintmode_countdown_scripts' );
 		}
 	}
 	
@@ -133,6 +147,10 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 			$time_diff_string = $end_string - $today_string;
 			$time_diff = floor($time_diff_string/(60*60*24));
 			
+			
+			// For countdown timer
+			$date_array = explode("-", $end_date);
+			
 			$output .= '
 			
 			<style type="text/css">
@@ -144,6 +162,17 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 					text-align: center;
 				}
 				
+				#defaultCountdown {
+					height: auto;
+					margin: 20px 0;
+					}
+					
+				.countdown-section {
+					display:block;
+					width:23%;
+					float: left;
+				}
+								
 			</style>
 			
 			<script>
@@ -162,7 +191,13 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 									}).trigger("click");';
 					}
 					
-				   $output .= '}
+				   $output .= '}	
+				   
+					jQuery(function () {
+						var austDay = new Date();
+						austDay = new Date('.$date_array[0].', '.$date_array[1].' - 1, '.$date_array[2].');
+						jQuery("#defaultCountdown").countdown({until: austDay});
+					});			
 				   				   
 				});
 				
@@ -173,6 +208,12 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 			// Check if lightbox / page or content	
 			if ( $options['position'] == 'Lightbox' && ! current_user_can( 'manage_woocommerce' ) ) {
 				
+				if($options['countdown'] == 1){
+					$countdown = '<div id="defaultCountdown"></div>';
+				} else {
+					$countdown = '';
+				}
+				
 				// Check if internal or external page
 					if ( $options['message'] == '' ) {
 						$page_id = $options['redirect_page'];
@@ -181,11 +222,12 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 						$page = $page_id;
 						$page_data = get_post( $page );
 						$page_content = $page_data->post_content;
+						
 						//$title = $page_data->post_title;
 						
 						$content = '
 						<a class="royal-prettyPhoto" href="#woo_maint_lightbox" style="display: none;">Inline</a>
-						<div id="woo_maint_lightbox" style="display: none;">'.$page_content.'</div>';
+						<div id="woo_maint_lightbox" style="display: none;">'.$page_content.''.$countdown.'</div>';
 					
 						echo $content;
 					
@@ -195,7 +237,7 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 				
 					$content = '
 						<a class="royal-prettyPhoto" href="#woo_maint_lightbox" style="display: none;">Inline</a>
-						<div id="woo_maint_lightbox" style="display: none;">'.$options['message'].'</div>';
+						<div id="woo_maint_lightbox" style="display: none;">'.$options['message'].''.$countdown.'</div>';
 					
 					echo $content;
 					
@@ -316,6 +358,12 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 				function woocommerce_maintmode_page_message($content) {	
 				
 					$options = get_option('woo_maint');
+					
+					if ($options['countdown'] == 1) {
+						$countdown = '<p><div id="defaultCountdown"></div></p>';
+					} else {
+						$countdown = '';
+					}
 				
 					// Check if internal or external page
 					if ( $options['message'] == '' ) {
@@ -328,7 +376,7 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 						//$title = $page_data->post_title;
 						
 						$content.= '<div class="woo_maint_page">';
-						$content.= '<p>'.$page_content.'</p>';
+						$content.= '<p>'.$page_content.''.$countdown.'</p>';
 						$content.= '</div>';
 							
 						return $content;
@@ -336,7 +384,7 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 					} else {
 						
 						$content.= '<div class="woo_maint_page">';
-						$content.= '<p>'.$options['message'].'</p>';
+						$content.= '<p>'.$options['message'].''.$countdown.'</p>';
 						$content.= '</div>';
 							
 						return $content;
@@ -384,3 +432,47 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 	add_action('admin_init', 'woocommerce_maintmode_activate_nag_ignore'); */
 
 }
+
+// Remove Existing Cookies Set By The Plugin	
+function woocommerce_maintmode_delete_cookies(){
+	
+	if(isset( $_GET['woo_maint_delete_cookies'] ) ) {
+		
+		if ( isset( $_COOKIE['lightbox_cookie'] ) ) {
+		  
+			$expiry = time() - 60;
+  
+			unset( $_COOKIE['lightbox_cookie'] );
+			setcookie('lightbox_cookie', '', $expiry, '/');
+			
+			
+		 }
+		 
+		 if ( isset( $_COOKIE['page_cookie'] ) ) {
+  
+			$expiry = time() - 60;
+  
+			unset( $_COOKIE['page_cookie'] );
+			setcookie('page_cookie', '', $expiry, '/');
+			
+			
+		 }
+		 
+		 if ( isset( $_COOKIE['redirect_cookie'] ) ) {
+  
+			$expiry = time() - 60;
+  
+			unset( $_COOKIE['redirect_cookie'] );
+			setcookie('redirect_cookie', '', $expiry, '/');
+			
+			
+		 }
+				 
+			echo '<div class="updated"><p>';
+			printf(__('All Cookies Set By This Plugin Have Been Deleted'), '');
+			echo "</p></div>";
+	}
+	
+}
+
+add_action('admin_init','woocommerce_maintmode_delete_cookies');

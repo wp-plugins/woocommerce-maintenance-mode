@@ -4,7 +4,7 @@ Donate link: http://mattroyal.co.za/donate
 Tags: woocommerce, maintenance, shop, store, notice, alert, redirect, lightbox
 Requires at least: 3.8
 Tested up to: 3.9.1
-Stable tag: 1.1.1
+Stable tag: 1.3
 
 Store messages or redirects on all WooCommerce pages for non admins. Other pages/posts unaffected. Ideal for store maintenance or store wide notices.
 
@@ -64,6 +64,11 @@ No questions yet. Need help, contact me via [my website](http://mattroyal.co.za)
 
 == Changelog ==
 
+= 1.3 =
+* 2014-07-13
+* Added Countdown option to display a countdown timer until maintenance/message end date
+* Added admin button to remove all cookies set by plugin
+
 = 1.2 =
 * 2014-06-21
 * Cookies set with php, now set site wide
@@ -78,6 +83,11 @@ No questions yet. Need help, contact me via [my website](http://mattroyal.co.za)
 * Initial release
 
 == Upgrade Notice ==
+
+= 1.3 =
+* 2014-07-13
+* Added Countdown option to display countdown timer until maintenance/message end date
+* Added admin button to remove all cookies set by plugin
 
 = 1.2 =
 * 2014-06-21

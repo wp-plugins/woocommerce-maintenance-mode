@@ -26,7 +26,7 @@ function woocommerce_maintmode_options_do_page() {
     
 	<div class="wrap">
 
-		<?php screen_icon(); echo "<h2 class='woo_maint'>" . __( 'Woocommerce Maintenance | Message Mode', 'woocommerce-maintenance-mode' ) . "</h2>"; ?>
+		<?php screen_icon(); echo "<h2 class='woo_maint'>" . __( 'Woocommerce Maintenance | Message Mode <span id="donate"><a href="http://mattroyal.co.za/donate/" target="_blank">Want to say thanks?</a></span>', 'woocommerce-maintenance-mode' ) . "</h2>"; ?>
 
 		<?php //if ( false !== $_REQUEST['settings-updated'] ) : ?>
 		<!-- <div class="updated fade"><p><strong><?php //_e( 'Options saved', 'woocommerce-maintenance-mode' ); ?></strong></p></div> -->
@@ -112,6 +112,16 @@ function woocommerce_maintmode_options_do_page() {
 					</td>
 				</tr>
                 
+                <tr valign="top"><th scope="row"><?php _e( 'Show Countdown:', 'woocommerce-maintenance-mode' ); ?></th>
+					<td>
+                    <label class="switch" for="woo_maint[countdown]"><?php _e( '', 'woocommerce-maintenance-mode' ); ?>
+						<input id="woo_maint_countdown" class="switch-input" name="woo_maint[countdown]" type="checkbox" value="1" <?php checked( '1', $options['countdown'] ); ?> />
+                        <span class="switch-label" data-on="Yes" data-off="No"></span>
+      					<span class="switch-handle"></span>
+						</label>
+					</td>
+				</tr>
+                
                 <tr valign="top" class="woo_maint_redirect" ><th scope="row"><?php _e( 'External Redirect URL:', 'woocommerce-maintenance-mode' ); ?></th>
 					<td>
 						<input id="woo_maint_redirect_url" class="regular-text" type="text" name="woo_maint[redirect_url]" value="<?php esc_attr_e( $options['redirect_url'] ); ?>" />
@@ -149,6 +159,11 @@ function woocommerce_maintmode_options_do_page() {
                         ?>	
 						<label class="description" for="woo_maint[message]"></label>
                         <p><span class="woo_maint_note"> <?php _e( 'This is the note that will be displayed on your Woocommerce store pages', 'woocommerce-maintenance-mode' ); ?></span></p>
+					</td>
+				</tr>
+                <tr valign="top" class="woo_maint_message"><th scope="row"><?php _e( 'Delete Existing Cookies:', 'woocommerce-maintenance-mode' ); ?></th>
+					<td>
+                    	<a href="?page=woocommerce_maintmode_plugin_options&woo_maint_delete_cookies=1" class="button">Delete All Cookies</a><span class="woo_maint_note" style="line-height: 28px; margin-left: 20px">(Note: This will only affect your browser.)</span>
 					</td>
 				</tr>
 			</table>
@@ -228,6 +243,13 @@ function date_picker_admin_head(){
 			margin: 0;
 			padding: 20px !important;
 			box-shadow: 2px 2px 10px #ccc;
+		}
+		
+		#donate {
+			float: right;
+			font-size: 0.8em;
+			line-height: 1.5em;
+			text-align: right;
 		}
 
 		table.woo_maint {

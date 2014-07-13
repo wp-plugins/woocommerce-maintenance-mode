@@ -1,5 +1,10 @@
 *** WooCommerce Maintenance Mode Changelog ***
 
+= 1.3 =
+* 2014-07-13
+* Added Countdown option to display a countdown timer until maintenance/message end date
+* Added admin button to remove all cookies set by plugin
+
 = 1.2 =
 * 2014-06-21
 * Cookies set with php, now set site wide
