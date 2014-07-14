@@ -1,7 +1,7 @@
 <?php
 /*
    Plugin Name: WooCommerce Maintenance Mode
-   Version: 1.2
+   Version: 1.3
    Description: Add a message or redirect on Woocommerce pages only, not affecting any other parts of your website. Logged in admins will not see anything.
    Plugin URI: http://www.mattroyal.co.za/plugins/woocommerce-maintenance-mode/
    Author: Matt Royal
