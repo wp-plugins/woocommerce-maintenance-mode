@@ -26,6 +26,7 @@ http://mattroyal.co.za/
 * Set end date
 * Control frequency of messages/redirects 
 * Control how message is displayed
+* Countdown Timer
 
 == Usage ==
 
@@ -53,7 +54,12 @@ Installing "WooCommerce Maintenance Mode" can be done either by searching for "W
 
 == Frequently Asked Questions ==
 
-No questions yet. Need help, contact me via [my website](http://mattroyal.co.za).
+= The plugin isn't working! =
+
+When previewing how your lightbox popup, in-page message or testing your redirect you MUST remember to logout and then view it or use a secondary browser that is not logged into your Dashboard to view it. One of the conditions for the plugin to display or redirect on WooCommerce pages is that the user is NOT logged in, but its easy to forget this when working or testing things on your site. (I have done it plenty.)
+
+Also remember to either use the 0 value for cookie settings within your plugin whilst testing or use the delete all cookies button and then test again. Often it is not working because the cookie has already been set previously and you have just forgotten about it :)
+
 
 == Screenshots ==
 
