@@ -7,7 +7,7 @@
    Author: Matt Royal
    Author URI: http://www.mattroyal.co.za/
    Requires at least: 3.8
-   Tested up to: 3.9.1
+   Tested up to: 4.0
    Text Domain: woocommerce-maintenance-mode
    License: GPLv3
   */
