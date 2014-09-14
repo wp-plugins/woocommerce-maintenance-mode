@@ -3,7 +3,7 @@ Contributors: themattroyal
 Donate link: http://mattroyal.co.za/donate
 Tags: woocommerce, maintenance, shop, store, notice, alert, redirect, lightbox
 Requires at least: 3.8
-Tested up to: 3.9.1
+Tested up to: 4.0
 Stable tag: 1.3
 
 Store messages or redirects on all WooCommerce pages for non admins. Other pages/posts unaffected. Ideal for store maintenance or store wide notices.
