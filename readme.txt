@@ -3,8 +3,8 @@ Contributors: themattroyal
 Donate link: http://mattroyal.co.za/donate
 Tags: woocommerce, maintenance, shop, store, notice, alert, redirect, lightbox
 Requires at least: 3.8
-Tested up to: 4.0
-Stable tag: 1.3
+Tested up to: 4.2
+Stable tag: 1.4
 
 Store messages or redirects on all WooCommerce pages for non admins. Other pages/posts unaffected. Ideal for store maintenance or store wide notices.
 
@@ -26,6 +26,7 @@ http://mattroyal.co.za/
 * Set end date
 * Control frequency of messages/redirects 
 * Control how message is displayed
+* Countdown Timer
 
 == Usage ==
 
@@ -53,7 +54,16 @@ Installing "WooCommerce Maintenance Mode" can be done either by searching for "W
 
 == Frequently Asked Questions ==
 
-No questions yet. Need help, contact me via [my website](http://mattroyal.co.za).
+= The plugin isn't working?! =
+
+When previewing your lightbox popup, in-page message or testing your redirect you MUST remember to logout and then view it or use a secondary browser that is not logged into your Dashboard to view it. One of the conditions for the plugin to display or redirect on WooCommerce pages is that the user is NOT logged in, but its easy to forget this when working or testing things on your site. (I have done it plenty.)
+
+Also remember to either use the 0 value for cookie settings within your plugin whilst testing or use the delete all cookies button and then test again. Often it is not working because the cookie has already been set previously and you have just forgotten about it :)
+
+= I have a question, I need help =
+
+You contact me via [my website](http://mattroyal.co.za).
+
 
 == Screenshots ==
 
@@ -63,6 +73,13 @@ No questions yet. Need help, contact me via [my website](http://mattroyal.co.za)
 
 
 == Changelog ==
+
+= 1.4 =
+* 2015-06-30
+* Fix - Update PrettyPhoto to 3.1.6 to resolve XSS security issue <a href="https://github.com/scaron/prettyphoto/issues/149">https://github.com/scaron/prettyphoto/issues/149</a>
+* Tweak - Removed conditional check to only display the plugins message/lightbox/redirect when admin is NOT logged in. This caused to much confusion for users.
+* Tweak - Replaced WordPress the_content filter with proper WooCommerce hooks
+* Feature - Added a link in the admin notice for clearing cache when using W3 Total Cache plugin.
 
 = 1.3 =
 * 2014-07-13
@@ -83,6 +100,13 @@ No questions yet. Need help, contact me via [my website](http://mattroyal.co.za)
 * Initial release
 
 == Upgrade Notice ==
+
+= 1.4 =
+* 2015-06-30
+* Fix - Update PrettyPhoto to 3.1.6 to resolve XSS security issue <a href="https://github.com/scaron/prettyphoto/issues/149">https://github.com/scaron/prettyphoto/issues/149</a>
+* Tweak - Removed conditional check to only display the plugins message/lightbox/redirect when admin is NOT logged in. This caused to much confusion for users.
+* Tweak - Replaced WordPress the_content filter with proper WooCommerce hooks
+* Feature - Added a link in the admin notice for clearing cache when using W3 Total Cache plugin.
 
 = 1.3 =
 * 2014-07-13

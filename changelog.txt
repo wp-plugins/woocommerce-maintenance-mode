@@ -1,5 +1,12 @@
 *** WooCommerce Maintenance Mode Changelog ***
 
+= 1.4 =
+* 2015-06-30
+* Fix - Update PrettyPhoto to 3.1.6 to resolve XSS security issue <a href="https://github.com/scaron/prettyphoto/issues/149">https://github.com/scaron/prettyphoto/issues/149</a>
+* Tweak - Removed conditional check to only display the plugins message/lightbox/redirect when admin is NOT logged in. This caused to much confusion for users.
+* Tweak - Replaced WordPress the_content filter with proper WooCommerce hooks
+* Feature - Added a link in the admin notice for clearing cache when using W3 Total Cache plugin.
+
 = 1.3 =
 * 2014-07-13
 * Added Countdown option to display a countdown timer until maintenance/message end date

@@ -1,13 +1,13 @@
 <?php
 /*
    Plugin Name: WooCommerce Maintenance Mode
-   Version: 1.3
+   Version: 1.4
    Description: Add a message or redirect on Woocommerce pages only, not affecting any other parts of your website. Logged in admins will not see anything.
    Plugin URI: http://www.mattroyal.co.za/plugins/woocommerce-maintenance-mode/
    Author: Matt Royal
    Author URI: http://www.mattroyal.co.za/
    Requires at least: 3.8
-   Tested up to: 4.0
+   Tested up to: 4.2
    Text Domain: woocommerce-maintenance-mode
    License: GPLv3
   */
@@ -53,14 +53,14 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 			
 			if ( ! get_user_meta($user_id, 'woocommerce_maintmode_ignore_notice') ) {
 				echo '<div class="error"><p>';
-				printf(__('WooCommerce Maintenance/Message mode is Active! | <a href="options-general.php?page=woocommerce_maintmode_plugin_options">Turn Off</a><!-- | <a href="%1$s">Hide Notice</a> -->'), '?woocommerce_maintmode_nag_ignore=0');
+				printf(__('WooCommerce Maintenance/Message mode is Active! | <a href="options-general.php?page=woocommerce_maintmode_plugin_options">Turn Off</a> | <a href="admin.php?page=w3tc_dashboard&w3tc_note=flush_all">Flush Cache (W3 Total Cache)</a><br />
+							Please make sure you are logged out and you have cleared all cookies before testing!!<!-- | <a href="%1$s">Hide Notice</a> -->'), '?woocommerce_maintmode_nag_ignore=0');
 				echo "</p></div>";
 			}
 		}
 		
 		add_action('admin_notices', 'woocommerce_maintmode_admin_notice');
 		
-			/**
 			// Allow admin notice to be dismissed 
 			function woocommerce_maintmode_nag_ignore() {
 			
@@ -72,7 +72,7 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 			}
 		}
 		
-		add_action('admin_init', 'woocommerce_maintmode_nag_ignore'); */
+		// add_action('admin_init', 'woocommerce_maintmode_nag_ignore');
 			
 	}
 	
@@ -108,11 +108,11 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 		
 		$options = get_option('woo_maint');
 		
-		if ( ($options['activation'] == 1) && ! current_user_can( 'manage_woocommerce' ) ) {
+		if ( ($options['activation'] == 1) /* && ! current_user_can( 'manage_woocommerce' ) */ ) {
 			add_action( 'wp_enqueue_scripts', 'woocommerce_maintmode_scripts' );
 		}
 		
-		if ( ($options['activation'] == 1) && ! current_user_can( 'manage_woocommerce' ) && ($options['countdown'] == 1) ) {
+		if ( ($options['activation'] == 1) /* && ! current_user_can( 'manage_woocommerce' ) */ && ($options['countdown'] == 1) ) {
 			add_action( 'wp_enqueue_scripts', 'woocommerce_maintmode_countdown_scripts' );
 		}
 	}
@@ -123,7 +123,7 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 	function woocommerce_maintmode_header() {
 		
 		// check to see if users capabilities are less than woocommerce shop manager and only dispaly on Woocommerce pages
-		if( is_woocommerce() or is_shop() or is_product_category() or is_product() or is_cart() or is_checkout() or is_account_page() && ! current_user_can( 'manage_woocommerce' ) ) {
+		if( is_woocommerce() or is_shop() or is_product_category() or is_product() or is_cart() or is_checkout() or is_account_page() /* && ! current_user_can( 'manage_woocommerce' ) */ ) {
 			
 			// Get some settings
 			$options = get_option('woo_maint');
@@ -206,11 +206,14 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 			echo $output;
 			
 			// Check if lightbox / page or content	
-			if ( $options['position'] == 'Lightbox' && ! current_user_can( 'manage_woocommerce' ) ) {
+			if ( $options['position'] == 'Lightbox' /* && ! current_user_can( 'manage_woocommerce' ) */ ) {
 				
-				if($options['countdown'] == 1){
+				if( $options['countdown'] == 1 ) {
+					
 					$countdown = '<div id="defaultCountdown"></div>';
+
 				} else {
+					
 					$countdown = '';
 				}
 				
@@ -231,15 +234,13 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 					
 						echo $content;
 					
-					}
-					
-					else {
+					} else {
 				
-					$content = '
-						<a class="royal-prettyPhoto" href="#woo_maint_lightbox" style="display: none;">Inline</a>
-						<div id="woo_maint_lightbox" style="display: none;">'.$options['message'].''.$countdown.'</div>';
-					
-					echo $content;
+						$content = '
+							<a class="royal-prettyPhoto" href="#woo_maint_lightbox" style="display: none;">Inline</a>
+							<div id="woo_maint_lightbox" style="display: none;">'.$options['message'].''.$countdown.'</div>';
+						
+						echo $content;
 					
 					}
 			
@@ -254,7 +255,7 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 		
 		$options = get_option('woo_maint');
 		
-		if ( ($options['activation'] == 1) && ($options['position'] == 'Page' or $options['position'] == 'Lightbox') && ! current_user_can( 'manage_woocommerce' ) ) {
+		if ( ($options['activation'] == 1) && ($options['position'] == 'Page' or $options['position'] == 'Lightbox') /* && ! current_user_can( 'manage_woocommerce' ) */ ) {
 			add_filter('wp_head', 'woocommerce_maintmode_header');
 		}
 	}
@@ -297,7 +298,7 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 		}
 		
 		// Conditions to validate against before redirecting the user
-		if ( ( $options['position'] == 'Redirect' && $time_diff >= 0 ) && (is_woocommerce() or is_shop() or is_product_category() or is_product() or is_cart() or is_checkout() or is_account_page() ) && ! current_user_can( 'manage_woocommerce' ) ) {
+		if ( ( $options['position'] == 'Redirect' && $time_diff >= 0 ) && (is_woocommerce() or is_shop() or is_product_category() or is_product() or is_cart() or is_checkout() or is_account_page() ) /* && ! current_user_can( 'manage_woocommerce' ) */ ) {
 			
 			// Check if cookie is set for the user
 			if ( ! isset( $_COOKIE['redirect_cookie'] ) ) {
@@ -320,6 +321,8 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 	
 	// Add to just Woocommerce pages
 	function woocommerce_maintmode_page() {
+
+		global $post;
 		
 		// Check if redirect option set
 		$options = get_option('woo_maint');
@@ -344,7 +347,7 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 		$time_diff = floor($time_diff_string/(60*60*24));
 	
 		// Conditions to validate against before redirecting the user
-		if ( ( $options['position'] == 'Page' && $time_diff >= 0 ) && (is_woocommerce() or is_shop() or is_product_category() or is_product() or is_cart() or is_checkout() or is_account_page() ) && ! current_user_can( 'manage_woocommerce' ) ) {
+		if ( ( $options['position'] == 'Page' && $time_diff >= 0 ) && (is_woocommerce() or is_shop() or is_product_category() or is_product() or is_cart() or is_checkout() or is_account_page() ) /* && ! current_user_can( 'manage_woocommerce' ) */ ) {
 			
 			// Check if cookie is set for the user
 			if ( ! isset( $_COOKIE['page_cookie'] ) ) {
@@ -354,8 +357,6 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 				
 				// Set the cookie for the user
 				setcookie('page_cookie',$cookie,time() + (86400 * $days), '/'); // 86400 = 1 day
-				
-				function woocommerce_maintmode_page_message($content) {	
 				
 					$options = get_option('woo_maint');
 					
@@ -379,7 +380,7 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 						$content.= '<p>'.$page_content.''.$countdown.'</p>';
 						$content.= '</div>';
 							
-						return $content;
+						echo $content;
 				
 					} else {
 						
@@ -387,18 +388,23 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 						$content.= '<p>'.$options['message'].''.$countdown.'</p>';
 						$content.= '</div>';
 							
-						return $content;
+						echo $content;
 					}
 				
-				}
-				
-				add_filter ('the_content', 'woocommerce_maintmode_page_message');
+				//add_filter ('the_content', 'woocommerce_maintmode_page_message'); Use: function woocommerce_maintmode_page_message($content){}
 			} 
 		}
 		   
 	}
+
+	add_action( 'woocommerce_before_main_content', 'woocommerce_maintmode_page');
+	add_action( 'woocommerce_before_single_product', 'woocommerce_maintmode_page');
+	add_action( 'woocommerce_before_cart', 'woocommerce_maintmode_page');
+	add_action( 'woocommerce_before_my_account', 'woocommerce_maintmode_page');
+	add_action( 'woocommerce_checkout_before_customer_details', 'woocommerce_maintmode_page');
 	
-	add_action( 'wp', 'woocommerce_maintmode_page' );
+	
+	//add_action( 'wp', 'woocommerce_maintmode_page' );
 	
 } else {
 	
@@ -417,7 +423,6 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 	
 	add_action('admin_notices', 'woocommerce_maintmode_activate_admin_notice');
 	
-	/**
 	// Allow activation notice to be dismissed 
 	function woocommerce_maintmode_activate_nag_ignore() {
 		
@@ -429,10 +434,9 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 		}
 	}
 	
-	add_action('admin_init', 'woocommerce_maintmode_activate_nag_ignore'); */
+	// add_action('admin_init', 'woocommerce_maintmode_activate_nag_ignore');
 
 }
-
 // Remove Existing Cookies Set By The Plugin	
 function woocommerce_maintmode_delete_cookies(){
 	
